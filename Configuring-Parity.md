@@ -76,7 +76,7 @@ disable = false
 port = 8545
 interface = "local"
 cors = []
-apis = ["web3", "eth", "net", "parity", "traces", "rpc", "secretstore"]
+apis = ["web3", "eth", "pubsub", "net", "parity", "parity_pubsub", "traces", "rpc", "shh", "shh_pubsub"]
 hosts = ["none"]
 
 [websockets]
@@ -84,13 +84,13 @@ disable = false
 port = 8546
 interface = "local"
 origins = ["none"]
-apis = ["web3", "eth", "net", "parity", "traces", "rpc", "secretstore"]
+apis = ["web3", "eth", "pubsub", "net", "parity", "parity_pubsub", "traces", "rpc", "shh", "shh_pubsub"]
 hosts = ["none"]
 
 [ipc]
 disable = false
 path = "$HOME/.local/share/io.parity.ethereum/jsonrpc.ipc"
-apis = ["web3", "eth", "net", "parity", "parity_accounts", "personal", "traces", "rpc", "secretstore"]
+apis = ["web3", "eth", "pubsub", "net", "parity", "parity_pubsub", "parity_accounts", "traces", "rpc", "shh", "shh_pubsub"]
 
 [dapps]
 disable = false
@@ -327,12 +327,15 @@ API and Console Options:
                                    (Not set by default)
   --jsonrpc-apis APIS              Specify the APIs available through the JSONRPC
                                    interface. APIS is a comma-delimited list of API
-                                   name. Possible name are all, safe, web3, eth, net,
-                                   personal, parity, parity_set, traces, rpc,
-                                   parity_accounts. You can also disable a specific API
-                                   by putting '-' in the front: all,-personal
-                                   (default: web3,eth,pubsub,net,parity,parity_pubsub,
-                                   traces,rpc,secretstore).
+                                   name. Possible names are: all, safe, web3, net, eth, 
+                                   pubsub, personal, signer, parity, parity_pubsub, 
+                                   parity_accounts, parity_set, traces, rpc, secretstore, 
+                                   shh, shh_pubsub.
+                                   You can also disable a specific API by putting '-' 
+                                   in the front: all,-personal
+                                   "safe" contains: traces, parity_pubsub
+                                   (default: web3,eth,pubsub,net,parity,parity_pubsub,traces,
+                                   rpc,shh,shh_pubsub).
   --jsonrpc-hosts HOSTS            List of allowed Host header values. This option will
                                    validate the Host header sent by the browser, it
                                    is additional security against some attack
@@ -353,10 +356,15 @@ API and Console Options:
                                    all (all interfaces) or local (default: local).
   --ws-apis APIS                   Specify the APIs available through the WebSockets
                                    interface. APIS is a comma-delimited list of API
-                                   name. Possible name are web3, eth, pubsub, net,
-                                   personal, parity, parity_set, traces, rpc,
-                                   parity_accounts. (default: web3,eth,pubsub,net,parity,
-                                   parity_pubsub,traces,rpc,secretstore).
+                                   name. Possible names are : all, safe, web3, net, eth, 
+                                   pubsub, personal, signer, parity, parity_pubsub, 
+                                   parity_accounts, parity_set, traces, rpc, secretstore, 
+                                   shh, shh_pubsub.
+                                   You can also disable a specific API by putting '-' 
+                                   in the front: all,-personal
+                                   "safe" contains: traces, parity_pubsub
+                                   (default: web3,eth,pubsub,net,parity,parity_pubsub,traces,rpc,
+                                   shh,shh_pubsub).
   --ws-origins URL                 Specify Origin header values allowed to connect.
                                    Special options: "all", "none".
                                    (default: chrome-extension://*)
@@ -369,10 +377,17 @@ API and Console Options:
   --no-ipc                         Disable JSON-RPC over IPC service. (default: false)
   --ipc-path PATH                  Specify custom path for JSON-RPC over IPC service
                                    (default: $BASE/jsonrpc.ipc).
-  --ipc-apis APIS                  Specify custom API set available via JSON-RPC over
-                                   IPC (default: web3, eth, pubsub, net,parity,
-                                   parity_pubsub, parity_accounts, traces, rpc, 
-                                   secretstore).
+  --ipc-apis APIS                  Specify custom API set available via JSON-RPC 
+                                   IPC. APIS is a comma-delimited list of API
+                                   name. Possible names are all, safe, web3, net, eth, 
+                                   pubsub, personal, signer, parity, parity_pubsub, 
+                                   parity_accounts, parity_set, traces, rpc, secretstore, 
+                                   shh, shh_pubsub.
+                                   You can also disable a specific API by putting '-' 
+                                   in the front: all,-personal
+                                   "safe" contains: traces, parity_pubsub
+                                   (default: web3,eth,pubsub,net,parity,parity_pubsub,
+                                   parity_accounts,traces,rpc,shh,shh_pubsub).
   --no-dapps                       Disable the Dapps server (e.g. status page).
                                    (default: false)
   --dapps-path PATH                Specify directory where dapps should be installed.
